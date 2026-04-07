@@ -1,3 +1,6 @@
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+
 import dotenv from "dotenv"
 
 
@@ -16,16 +19,12 @@ import mocksrouter from './routes/mocks.router.js'
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8080;
-const MONGO_URI =
-  process.env.NODE_ENV === "production"
-    ? process.env.MONGODB_URI_ATLAS
-    : process.env.MONGODB_URI_LOCAL;
+const PORT = 3001;
+const MONGO_URI = "mongodb://127.0.0.1:27017/adoptme";
 
 mongoose.connect(MONGO_URI)
-  .then(() => console.log(`✅ Conectado a MongoDB (${process.env.NODE_ENV})`))
+  .then(() => console.log("✅ Conectado a MongoDB"))
   .catch(err => console.error("❌ Error MongoDB:", err));
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,3 +39,6 @@ app.use('/api/mocks', mocksrouter )
 app.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
 });
+const swaggerDocument = YAML.load("./src/docs/users.yaml");
+
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

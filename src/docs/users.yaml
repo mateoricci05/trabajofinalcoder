@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: Users API
+  version: 1.0.0
+
+paths:
+  /api/users:
+    get:
+      summary: Obtener todos los usuarios
+      responses:
+        "200":
+          description: OK
+
+    post:
+      summary: Crear usuario
+      responses:
+        "201":
+          description: Creado
+
+  /api/users/{id}:
+    get:
+      summary: Obtener usuario por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: No encontrado
+
+    put:
+      summary: Actualizar usuario
+      responses:
+        "200":
+          description: OK
+
+    delete:
+      summary: Eliminar usuario
+      responses:
+        "200":
+          description: Eliminado
+          
